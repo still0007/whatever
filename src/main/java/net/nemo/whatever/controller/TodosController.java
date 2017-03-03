@@ -36,6 +36,7 @@ public class TodosController {
 
         ModelAndView mv = new ModelAndView(StringUtil.getUserAgentViewName(request,"todos/index"));
         mv.addObject("assets", assetsPath("index"));
+        mv.addObject("lastCommit", env.getProperty("LAST_COMMIT"));
 
         return mv;
     }

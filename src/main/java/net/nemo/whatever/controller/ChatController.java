@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,9 @@ public class ChatController {
 	@Autowired
 	private MessageService messageSercice;
 
+	@Autowired
+	private Environment env;
+
 	@RequestMapping("/list.html")
 	public ModelAndView chatList(HttpServletRequest request) {
 		logger.info("Request /list.html");
@@ -43,13 +47,8 @@ public class ChatController {
 		User currentUser = (User) SecurityUtils.getSubject().getSession().getAttribute("currentUser");
 		List<Chat> chats = this.chatService.listChats(currentUser.getId());
 		mav.addObject("chats", chats);
+		mav.addObject("lastCommit", env.getProperty("LAST_COMMIT"));
 
-		return mav;
-	}
-
-	@RequestMapping(value = "/{chat_id}.html", method = RequestMethod.GET)
-	public ModelAndView messages(HttpServletRequest request, @PathVariable("chat_id") Integer chatId) {
-		ModelAndView mav = new ModelAndView(StringUtil.getUserAgentViewName(request, "message/list"));
 		return mav;
 	}
 

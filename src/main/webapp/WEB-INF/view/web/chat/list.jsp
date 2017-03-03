@@ -87,7 +87,10 @@
 		</div>
         <footer class="footer">
             <div class="container">
-                <p class="text-muted">Powered by www.ileqi.com.cn | copyright reserved © 1997-2016</p>
+                <p class="text-muted">
+                    Powered by www.ileqi.com.cn | copyright reserved © 1997-2016<br/>
+                    <c:out value="${lastCommit}"/>
+                </p>
             </div>
         </footer>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

@@ -6,7 +6,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var devServerPort = 3080;
 var production = process.env.NODE_ENV === 'production';
 
-module.exports = {
+
+var config = {
   entry: {
     'index': __dirname + "/src/main/webapp/todo-app/index.js"
   },
@@ -49,7 +50,9 @@ module.exports = {
   devServer: {
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' }
-  },
+  }
+};
 
-  devtool: 'source-map'
-}
+if(!production) config.devtool = "source-map";
+
+module.exports = config;
