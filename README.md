@@ -1,5 +1,3 @@
-# whatever
-
 ##Tech Stack
   - Integration Framework: Spring 4
   - Security Framework: Shiro
@@ -8,4 +6,4 @@
   - Cache: Redis
   - Message Queue: RMQ
   - Schedule Jobbing: Quartz
-  - Front-end: React
+  - Front-end: React/Bootstrap
