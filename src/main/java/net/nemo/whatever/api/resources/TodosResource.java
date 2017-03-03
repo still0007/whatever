@@ -9,7 +9,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriInfo;
 import java.util.*;
 
 /**
@@ -70,6 +69,7 @@ public class TodosResource {
 
         if(id == null)
             throw new IllegalArgumentException("parameter `id` is required");
+
         Jedis jedis = jedisPool.getResource();
         boolean completed = Boolean.valueOf(jedisPool.getResource().hget(String.valueOf(id), "completed"));
         jedis.hset(String.valueOf(id), "completed", String.valueOf(!completed));
