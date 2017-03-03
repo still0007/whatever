@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.nemo.whatever.controller.mav.UserAgentModelAndView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
@@ -33,18 +34,10 @@ public class ChatController {
 	@Autowired
 	private ChatService chatService;
 
-	@Autowired
-	private MessageService messageSercice;
-
-	@Autowired
-	private Environment env;
-
 	@RequestMapping("/list.html")
 	public ModelAndView chatList(HttpServletRequest request) {
-		logger.info("Request /list.html");
-
-		ModelAndView mav = new ModelAndView(StringUtil.getUserAgentViewName(request, "chat/list"));
-		User currentUser = (User) SecurityUtils.getSubject().getSession().getAttribute("currentUser");
+		ModelAndView mav = new UserAgentModelAndView(request, "chat/index", "wecord");
+		User currentUser = (User)mav.getModelMap().get("currentUser");
 		List<Chat> chats = this.chatService.listChats(currentUser.getId());
 		mav.addObject("chats", chats);
 		mav.addObject("lastCommit", env.getProperty("LAST_COMMIT"));
@@ -52,31 +45,4 @@ public class ChatController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/list.json", method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String, Object> chatList() {
-		Map<String, Object> result = new HashMap<String, Object>();
-
-		User currentUser = (User) SecurityUtils.getSubject().getSession().getAttribute("currentUser");
-		List<Chat> chats = this.chatService.listChats(currentUser == null ? 1 : currentUser.getId());
-		result.put("chats", chats);
-		result.put("success", true);
-		return result;
-	}
-
-	@RequestMapping(value = "/{chat_id}.json", method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String, Object> messages(@PathVariable("chat_id") Integer chatId) {
-		List<Map> messages = this.messageSercice.findMessages(chatId);
-
-        for(Map msg: messages){
-            Integer msgId = (Integer)msg.get("id");
-            msg.put("tags", StringUtils.join(this.messageSercice.findTags(msgId).toArray(), ","));
-        }
-
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("messages", messages);
-		result.put("success", true);
-		return result;
-	}
 }

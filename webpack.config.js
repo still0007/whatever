@@ -9,7 +9,8 @@ var production = process.env.NODE_ENV === 'production';
 
 var config = {
   entry: {
-    'index': __dirname + "/src/main/webapp/todo-app/index.js"
+    'todos': __dirname + "/src/main/webapp/app-todo/index.js",
+    'wecord': __dirname + "/src/main/webapp/app-wecord/index.js"
   },
   output: {
     path: path.join(__dirname, '/src/main/webapp/static/build'),

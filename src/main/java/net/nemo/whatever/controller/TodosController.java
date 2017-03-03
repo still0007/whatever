@@ -1,6 +1,7 @@
 package net.nemo.whatever.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.nemo.whatever.controller.mav.UserAgentModelAndView;
 import net.nemo.whatever.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -25,49 +26,9 @@ import java.util.Map;
 @PropertySource("classpath:props/application.properties")
 public class TodosController {
 
-    @Autowired
-    private Environment env;
-
-    private final String PUBLIC_PATH = "static/build";
-
-
     @RequestMapping("/*")
     public ModelAndView index(HttpServletRequest request){
-
-        ModelAndView mv = new ModelAndView(StringUtil.getUserAgentViewName(request,"todos/index"));
-        mv.addObject("assets", assetsPath("index"));
-        mv.addObject("lastCommit", env.getProperty("LAST_COMMIT"));
-
-        return mv;
+        return new UserAgentModelAndView(request, "todos/index", "todos");
     }
 
-    private Map<String, String> assetsPath(String assetName){
-        Map<String, String> assetsPath = new HashMap<>();
-
-        if("development".equals(env.getProperty("DEV_ENV"))){
-            String assetsDevDomain = env.getProperty("app.assets.development.domain.name");
-            for(String type : new String[]{"css", "js"}){
-                assetsPath.put(type, String.format("%s/%s/%s.%s", assetsDevDomain, PUBLIC_PATH, assetName, type));
-            }
-        }
-        else{
-            Map<String, List<String>> assetsByChunkName = (Map<String, List<String>>) jsonToMap("props/manifest.json").get("assetsByChunkName");
-            for(String assets : assetsByChunkName.get(assetName)){
-                assetsPath.put(assets.split("\\.")[1], String.format("/%s/%s", PUBLIC_PATH, assets));
-            }
-        }
-
-        return assetsPath;
-    }
-
-    private Map<String, Object> jsonToMap(String fileName){
-        ObjectMapper mapper = new ObjectMapper();
-        Resource r = new ClassPathResource(fileName);
-        try {
-            Map<String, Object> map = mapper.readValue(r.getFile(), Map.class);
-            return map;
-        }catch (IOException e){
-            return null;
-        }
-    }
 }
