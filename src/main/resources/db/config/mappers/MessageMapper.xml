@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="net.nemo.whatever.db.mapper.MessageMapper">
+	<insert id="insert" parameterType="net.nemo.whatever.entity.Message" useGeneratedKeys="true" keyProperty="id">
+		insert into messages (sender, receiver_id, timestamp, chat_id, type, content)
+		values (#{sender}, #{receiver.id}, #{time}, #{chat.id}, #{type}, #{content})
+	</insert>
+	
+	<select id="findCount" resultType="int" parameterType="net.nemo.whatever.entity.Message">
+		select count(id)
+		from messages
+		where sender=#{msg.sender}
+		  and receiver_id = #{msg.receiver.id}
+		  and content = #{msg.content}
+	</select>
+
+	<select id="findMessages" resultType="Map">
+		select m.id, m.timestamp as time, m.sender as name,
+		    case when m.type=2 then true else false end as islink,
+			case when m.sender = u.name then 'sent' else 'received' end as direction,
+			case when m.type=1 then a.path else m.content end as text
+		from messages m
+			join users u on m.receiver_id = u.id
+			left join attachments a on m.content = a.file_name
+		where m.chat_id = #{chat_id}
+	</select>
+
+    <select id="findLinkMessages" parameterType="int" resultMap="linkListResult">
+        select m.id, m.timestamp, m.sender, m.content
+        from messages m
+        where m.receiver_id = 1 and m.type = 2
+    </select>
+
+    <select id="findTaggedLinkMessages" resultMap="linkListResult">
+        select m.id, m.timestamp, m.sender, m.content
+        from messages m inner join tags t on m.id = t.message_id
+        where t.name = #{tag_name} and m.receiver_id = #{user_id};
+    </select>
+
+    <resultMap id="linkListResult" type="net.nemo.whatever.entity.Message">
+        <id column="id" javaType="int"/>
+        <result column="timestamp" property="time" javaType="date"/>
+        <result column="sender" property="sender" javaType="string"/>
+        <result column="content" property="content" javaType="string"/>
+    </resultMap>
+</mapper>
+
