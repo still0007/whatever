@@ -8,4 +8,4 @@
   - Cache: Redis
   - Message Queue: RMQ
   - Schedule Jobbing: Quartz
-  - Front-end: React
+  - Front-end: React/Bootstrap
