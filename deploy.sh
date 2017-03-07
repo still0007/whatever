@@ -29,7 +29,9 @@ export LAST_COMMIT="$last_commit"
 
 #build assets
 echo -e "******************        Building assets        *****************"
+rm -rf src/main/webapp/static/build/*
 npm run build
+mv src/webapp/static/manifest.json src/main/resources/props
 
 #run maven to build project
 echo -e "******************         Now packaging         *****************"
