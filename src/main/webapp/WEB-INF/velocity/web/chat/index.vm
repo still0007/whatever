@@ -1,0 +1,23 @@
+#define($script)
+    <script id="template" type="x-tmpl-mustache">
+        {{#messages}}
+            <div class="{{direction}}">
+                <div class="arrow"></div>
+                {{&text}}
+                {{#islink}}
+                <input class="tagsinput" type="text" value="{{tags}}" data="{{id}}" data-role="tagsinput"/>
+                {{/islink}}
+            </div>
+        {{/messages}}
+    </script>
+    <script id="tag_template" type="x-tmpl-mustache">
+        {{#tags}}
+        <li class="list-group-item tag-item" data="{{.}}">{{{.}}}</li>
+        {{/tags}}
+    </script>
+    <script id="link_template" type="x-tmpl-mustache">
+        {{#links}}
+        <li class="list-group-item tag-item" data="{{id}}">{{{content}}}</li>
+        {{/links}}
+    </script>
+#end

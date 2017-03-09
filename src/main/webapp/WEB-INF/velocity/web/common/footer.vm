@@ -1,0 +1,8 @@
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted">
+            Powered by www.ileqi.com.cn | copyright reserved © 1997-2016<br/>
+            ${lastCommit}
+        </p>
+    </div>
+</footer>

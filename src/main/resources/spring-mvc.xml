@@ -29,15 +29,27 @@
     <!-- 扫描controller（controller层注入） -->
     <context:component-scan base-package="net.nemo.whatever.controller"/>
 
-    <!--
-	<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+    <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath"  value="WEB-INF/velocity/" /><!-- 設置模板防止位置-->
+        <property name="velocityProperties">
+            <props>
+                <prop key="directive.foreach.counter.name">loopCounter</prop>
+                <prop key="directive.foreach.counter.initial.value">0</prop>
+                <prop key="input.encoding">UTF-8</prop><!-- 指定模板引擎进行模板处理的编码 -->
+                <prop key="output.encoding">UTF-8</prop><!-- 指定输出流的编码 -->
+            </props>
+        </property>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
 		<property name="suffix" value=".vm" />
 		<property name="contentType" value="text/html;charset=utf-8" />
+        <property name="layoutUrl" value="web/layout/default.vm" />
 	</bean>
- 	-->
 
     <!-- 对模型视图添加前后缀 -->
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/view/" p:suffix=".jsp"/>
+    <!--<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"-->
+          <!--p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>-->
+
     <bean class="net.nemo.whatever.controller.exceptionresolver.MySimpleMappingExceptionResolver"/>
 </beans>

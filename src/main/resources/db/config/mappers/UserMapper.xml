@@ -24,4 +24,10 @@
 		set password = #{password}, status = #{status}, openid=#{openId}
 		where id = #{id}
 	</update>
+
+	<select id="findContacts" parameterType="int" resultType="String">
+		select c.owner_name as contact_name
+		from chats c left join users u on c.receiver_id = u.id
+    	where u.id = #{userId};
+	</select>
 </mapper>
