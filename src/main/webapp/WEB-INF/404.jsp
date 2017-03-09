@@ -11,6 +11,9 @@
     <title>404</title>
 </head>
 <body>
-<h1>404</h1>
+<div style="text-align: center;">
+    <h1>404 - Page not found</h1>
+    <span>Go to <a href="/index.html">home page</a></span>
+</div>
 </body>
 </html>

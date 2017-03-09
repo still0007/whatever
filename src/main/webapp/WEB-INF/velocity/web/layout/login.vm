@@ -14,7 +14,6 @@
     <div class="row">
         $screen_content
     </div>
-    <hr/>
 </div>
 #parse("web/common/footer.vm")
 </body>

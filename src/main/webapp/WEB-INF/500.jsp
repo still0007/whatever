@@ -11,6 +11,9 @@
     <title>500</title>
 </head>
 <body>
-<h1>500</h1>
+<div style="text-align: center;">
+    <h1>500 - Internal Server Error</h1>
+    <span>Go to <a href="/index.html">home page</a></span>
+</div>
 </body>
 </html>

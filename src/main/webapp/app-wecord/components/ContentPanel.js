@@ -8,7 +8,7 @@ const ContentPanel = ({ itemType, items }) => {
 
     if(items == undefined || items.length == 0){
         header = ""
-        content = "empty"
+        content = "Nothing to display..."
     }
     else{
         if(itemType === 'contact'){

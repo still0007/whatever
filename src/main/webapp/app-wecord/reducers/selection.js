@@ -3,7 +3,7 @@ const changeSelection = (state = {}, action) => {
         case "CHANGE_TAB":
             return {...state, selectedTab: action.tab }
         case "SELECT_ITEM":
-            return {...state, selectedItem: action.itemType }
+            return {...state, selectedItem: action.itemType, selectedValue: action.itemValue }
         default:
             return state
     }

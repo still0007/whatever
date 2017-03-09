@@ -14,9 +14,9 @@ body {
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 50px;
-    background-color: #f5f5f5;
-    border-width: 2px 0px 0px 0px;
-    border-style: solid;
+    /*background-color: #f5f5f5;*/
+    /*border-width: 2px 0px 0px 0px;*/
+    /*border-style: solid;*/
 }
 
 .footer > .container {
@@ -36,4 +36,9 @@ body {
 
 .header{
     width: 100%;
+}
+
+.row{
+    margin-right: 0px!important;
+    margin-left: 0px!important;
 }

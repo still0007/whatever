@@ -5,9 +5,10 @@ export const changeTab = (tabName) => ({
     tab: tabName
 })
 
-export const selectItem = (itemType) => ({
+export const selectItem = (itemType, itemValue) => ({
     type: 'SELECT_ITEM',
-    itemType: itemType
+    itemType: itemType,
+    itemValue: itemValue
 })
 
 export const receiveContacts = (contacts) => ({
@@ -49,7 +50,7 @@ export const fetchLinkTags = () => {
 export const fetchItem = (type, key) => {
     return function(dispatch){
 
-        dispatch(selectItem(type))
+        dispatch(selectItem(type, key))
 
         switch(type){
             case 'contact':

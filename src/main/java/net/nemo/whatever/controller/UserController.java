@@ -13,17 +13,22 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
+@RequestMapping("/")
 public class UserController {
 	
 	private Logger logger = Logger.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView root(HttpServletRequest request) throws Exception {
+        ModelAndView  mav = new UserAgentModelAndView(request, "index");
+        return mav;
+    }
 
 	@RequestMapping("/index.html")
 	public ModelAndView index(HttpServletRequest request) throws Exception {
-		ModelAndView  mav = new UserAgentModelAndView(request, "index");
-		return mav;
+		return root(request);
 	}
 
 	@RequestMapping("/login.html")
