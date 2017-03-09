@@ -22,16 +22,18 @@ public class SecurityHelper {
         return null;
     }
 
+    public static User getCurrentUser(UserService userService){
+        return userService.findByEmail(getCurrentUsername());
+    }
+
     public static User login(UserService userService, String username, String password, boolean rememberMe) throws AuthenticationException {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         token.setRememberMe(rememberMe);
+        SecurityUtils.getSubject().login(token);
 
-        Subject currentUser = SecurityUtils.getSubject();
-        currentUser.login(token);
-
-        User loginUser = userService.findByEmail(username);
-        currentUser.getSession().setAttribute("currentUser", loginUser);
-        return loginUser;
+        User user = userService.findByEmail(username);
+        SecurityUtils.getSubject().getSession().setAttribute("currentUser", user);
+        return user;
     }
 
     private static Subject getSubject() {

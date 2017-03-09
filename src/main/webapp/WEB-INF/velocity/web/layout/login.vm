@@ -6,7 +6,7 @@
     <title>Wecord</title>
     <link rel="stylesheet" href="/static/css/wecord.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="/static/lib/jquery-1.8.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
 </head>
 <body>
 <div class="container">

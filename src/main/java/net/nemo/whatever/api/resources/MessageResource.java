@@ -2,6 +2,7 @@ package net.nemo.whatever.api.resources;
 
 import net.nemo.whatever.entity.Message;
 import net.nemo.whatever.entity.User;
+import net.nemo.whatever.service.ChatService;
 import net.nemo.whatever.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tonyshi on 2017/3/7.
@@ -21,6 +23,9 @@ public class MessageResource {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private ChatService chatService;
 
     @GET
     @Path("/link/tags.json")
@@ -48,8 +53,17 @@ public class MessageResource {
     @GET
     @Path("/links.json")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Message> allMessages(@Context HttpServletRequest request, @QueryParam("tagname") String tagName) {
+    public List<Message> allLinkMessages(@Context HttpServletRequest request, @QueryParam("tagname") String tagName) {
         User currentUser = (User) request.getSession(true).getAttribute("currentUser");
         return this.messageService.findLinkMessageByType(currentUser, tagName);
+    }
+
+    @GET
+    @Path("/list.json")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Map> allMessages(@Context HttpServletRequest request, @QueryParam("contact") String contact) {
+        User currentUser = (User) request.getSession(true).getAttribute("currentUser");
+        Integer chatId = this.chatService.findIdBySender(currentUser.getId(), contact);
+        return this.messageService.findMessages(chatId);
     }
 }

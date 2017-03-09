@@ -56,4 +56,8 @@ public class ChatService {
 	public Chat findById(int id){
 		return this.chatMapper.findById(id);
 	}
+
+	public Integer findIdBySender(int receiverId, String sender){
+	    return this.chatMapper.findIdBySender(receiverId, sender);
+    }
 }

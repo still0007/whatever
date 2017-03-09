@@ -1,5 +1,6 @@
 package net.nemo.whatever.api;
 
+import net.nemo.whatever.api.exceptionmapper.BusinessExceptionMapper;
 import net.nemo.whatever.api.exceptionmapper.RuntimeExceptionMapper;
 import net.nemo.whatever.api.filter.CORSResponseFilter;
 import net.nemo.whatever.api.resources.ChatResource;
@@ -26,6 +27,7 @@ public class ApiApplication extends ResourceConfig {
         register(CORSResponseFilter.class);
 
         register(RuntimeExceptionMapper.class);
+        register(BusinessExceptionMapper.class);
 
         register(JacksonFeature.class);
     }

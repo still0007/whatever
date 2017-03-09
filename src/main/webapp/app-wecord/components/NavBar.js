@@ -1,12 +1,20 @@
 import React, { Component } from 'react'
+import { changeTab } from '../actions'
+import { connect } from 'react-redux'
 
-const NavBar = () => (
-    <ul className="nav nav-tabs" role="tablist" id="tablist">
-        <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Chats</a></li>
-        <li role="presentation"><a href="#links" aria-controls="links" role="tab" data-toggle="tab">Links</a></li>
+const NavBar = ({ dispatch, activeTab }) => (
+    <ul className="nav nav-tabs">
+        <li className={ activeTab == "contacts" ? "active" : "" } onClick={e=>{dispatch(changeTab('contacts'))}}>
+            <a href="#contacts">Contacts</a>
+        </li>
+        <li className={ activeTab == "links" ? "active" : "" } onClick={e=>dispatch(changeTab('links'))}>
+            <a href="#links">Links</a>
+        </li>
     </ul>
 )
 
-export default NavBar
+const mapStateToProps = (state) => {
+    return {activeTab: state.selection.selectedTab ? state.selection.selectedTab : "contacts" }
+}
 
-
+export default connect(mapStateToProps)(NavBar)

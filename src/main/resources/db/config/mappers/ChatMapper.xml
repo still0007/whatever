@@ -19,6 +19,12 @@
 		where id = #{id}
 	</select>
 
+    <select id="findIdBySender" resultType="int">
+        select id
+        from chats
+        where receiver_id = #{receiver_id} and owner_name = #{sender_name}
+    </select>
+
     <select id="findBySenderAndReceiver" resultMap="chatResult">
         select c.id as chatId, c.owner_name as ownerName, c.is_group_chat as groupChat,
         r.id as receiver_id, r.name as receiver_name, r.email as receiver_email, r.status as receiver_status,

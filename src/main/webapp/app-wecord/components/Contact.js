@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { fetchItem } from '../actions'
+import { Glyphicon } from 'react-bootstrap'
 
-const Contact = ({ id, name, avatar_url }) => (
-    <a href="#" class="list-group-item chat-item" data={id}>
-        <img src={ avatar_url } alt="" className="weui_media_appmsg_thumb" style={{width: 32, height: 32}}/>
-        { name }
+const Contact = ({ dispatch, name }) => (
+    <a href="#" className="list-group-item" data={name} onClick={e=>{e.preventDefault();dispatch(fetchItem('contact', name))}}>
+        <Glyphicon glyph="user" /> { name }
     </a>
 )
 
-export default Contact
+export default connect()(Contact)

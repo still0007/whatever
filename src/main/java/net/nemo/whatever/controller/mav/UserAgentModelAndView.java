@@ -36,8 +36,12 @@ public class UserAgentModelAndView extends ModelAndView {
     }
 
     public UserAgentModelAndView(HttpServletRequest request, String viewName, String assetName){
-        this(request, viewName);
+        super(getUserAgentViewName(request, viewName));
 
+        loadProperties();
+
+        addObject("lastCommit", StringUtils.trimToEmpty(System.getProperty("LAST_COMMIT")));
+        addObject("currentUser", SecurityUtils.getSubject().getSession().getAttribute("currentUser"));
         addObject("assets", assetsPath(assetName));
     }
 

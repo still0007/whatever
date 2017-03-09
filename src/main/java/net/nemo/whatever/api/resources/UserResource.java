@@ -12,9 +12,13 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +26,7 @@ import java.util.Map;
  */
 @Service
 @Path("/user")
+@Singleton
 public class UserResource {
 
     private Logger logger = Logger.getLogger(UserController.class);
@@ -60,7 +65,8 @@ public class UserResource {
     @POST
     @Path("/checkLogin.json")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> checkLogin(@FormParam("username") String username,
+    public Map<String, Object> checkLogin(@Context HttpServletRequest request,
+                                          @FormParam("username") String username,
                                           @FormParam("password") String password,
                                           @FormParam("rememberMe") boolean rememberMe,
                                           @FormParam("openid") String openid) throws Exception {
@@ -68,11 +74,7 @@ public class UserResource {
 
         Map<String, Object> result = new HashMap<String, Object>();
         try{
-            User user = SecurityHelper.login(this.userService, username, password, rememberMe);
-            if(null!=openid){
-                user.setOpenId(openid);
-                this.userService.update(user);
-            }
+            SecurityHelper.login(this.userService, username, password, rememberMe);
             result.put("success", true);
         }catch (Exception ex) {
             throw new BusinessException(ex.getMessage());
@@ -100,5 +102,14 @@ public class UserResource {
         }
 
         return result;
+    }
+
+    @GET
+    @Path("/contacts.json")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> queryFriends(@Context HttpServletRequest request){
+        User currentUser = SecurityHelper.getCurrentUser(this.userService);
+        List<String> contacts =  this.userService.findContacts(currentUser.getId());
+        return contacts;
     }
 }

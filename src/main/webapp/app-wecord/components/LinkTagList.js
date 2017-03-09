@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import LinkTag from './LinkTag'
 
-const LinkTagList = ({ linkTags, tabName }) => (
-    <div role="tabpanel" className="tab-pane" id={tabName}>
-        <ul className="list-group" id="taglist">
-            {linkTags.map( linkTag =>
-                <li key={linkTag.name} className="list-group-item tag-item active" data={linkTag.name}>
-                    {linkTag.name}
-                </li>
+const LinkTagList = ({ tags, tabName, activeTab }) => (
+    <div role="tabpanel" className="tab-pane" style={{ display: activeTab=="links" ? "inline" : "none" }}>
+        <div className="list-group">
+            {tags.map( tag =>
+                <LinkTag key={tag} name={tag}/>
             )}
-
-        </ul>
+        </div>
     </div>
 )
 
-export default LinkTagList
+export default connect((state) => ({
+    activeTab: state.selection.selectedTab ? state.selection.selectedTab : "contacts"
+}))(LinkTagList)

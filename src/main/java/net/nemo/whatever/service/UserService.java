@@ -8,6 +8,8 @@ import net.nemo.whatever.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 	
@@ -41,5 +43,8 @@ public class UserService {
 	public void update(User user){
 		this.userMapper.update(user);
 	}
-	
+
+	public List<String> findContacts(Integer userId){
+		return this.userMapper.findContacts(userId);
+	}
 }

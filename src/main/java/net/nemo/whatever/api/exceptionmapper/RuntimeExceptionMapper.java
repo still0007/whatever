@@ -1,5 +1,7 @@
 package net.nemo.whatever.api.exceptionmapper;
 
+import org.apache.log4j.Logger;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -11,7 +13,11 @@ import java.util.Map;
  */
 public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException> {
 
+    private Logger logger = Logger.getLogger(RuntimeExceptionMapper.class);
+
     public Response toResponse(RuntimeException e){
+        logger.error(e);
+
         Response.Status status = null;
         Map<String, Object> errorBody = new HashMap<>();
 
